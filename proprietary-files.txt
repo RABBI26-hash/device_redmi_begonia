@@ -43,12 +43,8 @@ vendor/lib/hw/audio.primary.mt6785.so
 # Bluetooth
 system_ext/lib/vendor.mediatek.hardware.bluetooth.audio@2.1.so
 system_ext/lib64/vendor.mediatek.hardware.bluetooth.audio@2.1.so
-vendor/bin/hw/android.hardware.bluetooth@1.0-service-mediatek
-vendor/etc/init/android.hardware.bluetooth@1.0-service-mediatek.rc
-vendor/lib/hw/android.hardware.bluetooth@1.0-impl-mediatek.so
 vendor/lib/libbt-vendor.so
 vendor/lib/vendor.mediatek.hardware.bluetooth.audio@2.1.so
-vendor/lib64/hw/android.hardware.bluetooth@1.0-impl-mediatek.so
 vendor/lib64/libbluetooth_mtk.so
 vendor/lib64/libbluetooth_mtk_pure.so
 vendor/lib64/libbluetooth_relayer.so
