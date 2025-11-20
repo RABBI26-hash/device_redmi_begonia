@@ -21,6 +21,7 @@ from extract_utils.main import (
 )
 
 namespace_imports = [
+     'hardware/mediatek/libaedv',
 ]
 
 

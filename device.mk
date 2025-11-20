@@ -20,6 +20,7 @@ PRODUCT_SOONG_NAMESPACES += \
     hardware/mediatek \
     hardware/xiaomi \
     hardware/mediatek/libmtkperf_client \
+    hardware/mediatek/libaedv \
     hardware/lineage/interfaces/power-libperfmgr \
     $(LOCAL_PATH)
 
