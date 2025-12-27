@@ -35,7 +35,6 @@ system_ext/lib64/vendor.mediatek.hardware.audio@6.1.so
 vendor/lib/vendor.mediatek.hardware.audio@6.1.so
 vendor/lib64/hw/audio.primary.mt6785.so
 vendor/lib64/hw/audio.r_submix.mt6785.so
-vendor/lib64/hw/audio.usb.mt6785.so
 vendor/lib64/vendor.mediatek.hardware.audio@6.1.so
 
 # Audio Hardware
