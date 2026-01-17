@@ -6,7 +6,6 @@
 package org.lunaris.dolby.ui.screens
 
 import androidx.compose.animation.*
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -15,9 +14,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -35,9 +32,6 @@ fun ModernAdvancedSettingsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val currentRoute by navController.currentBackStackEntryFlow.collectAsState(null)
-    
-    val layoutDirection = LocalLayoutDirection.current
-    val cutoutInsets = WindowInsets.displayCutout.asPaddingValues()
 
     Scaffold(
         topBar = {
@@ -55,9 +49,22 @@ fun ModernAdvancedSettingsScreen(
                 )
             )
         },
+        bottomBar = {
+            BottomNavigationBar(
+                currentRoute = currentRoute?.destination?.route ?: Screen.Advanced.route,
+                onNavigate = { route ->
+                    if (currentRoute?.destination?.route != route) {
+                        navController.navigate(route) {
+                            popUpTo(Screen.Settings.route) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
+                }
+            )
+        },
         containerColor = MaterialTheme.colorScheme.surfaceContainer
     ) { paddingValues ->
-        Box(modifier = Modifier.fillMaxSize()) {
         when (val state = uiState) {
             is DolbyUiState.Loading -> {
                 Box(
@@ -101,47 +108,6 @@ fun ModernAdvancedSettingsScreen(
                         )
                     }
                 }
-            }
-        }
-            
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-                    .height(130.dp)
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.95f)
-                            )
-                        )
-                    )
-            )
-            
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-                    .padding(
-                        start = cutoutInsets.calculateStartPadding(layoutDirection),
-                        end = cutoutInsets.calculateEndPadding(layoutDirection),
-                        bottom = paddingValues.calculateBottomPadding()
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                FloatingNavToolbar(
-                    currentRoute = currentRoute?.destination?.route ?: "settings",
-                    onNavigate = { route ->
-                        if (currentRoute?.destination?.route != route) {
-                            navController.navigate(route) {
-                                popUpTo("settings") { saveState = true }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        }
-                    }
-                )
             }
         }
     }
@@ -207,37 +173,6 @@ private fun ModernAdvancedSettingsContent(
                     Spacer(modifier = Modifier.height(12.dp))
                     Column {
                         ModernSettingSwitch(
-                            title = stringResource(R.string.dolby_mid_enhancer),
-                            subtitle = stringResource(R.string.dolby_mid_enhancer_summary),
-                            checked = state.profileSettings.midLevel > 0,
-                            onCheckedChange = { enabled ->
-                                if (enabled && state.profileSettings.midLevel == 0) {
-                                    viewModel.setMidLevel(40)
-                                } else if (!enabled) {
-                                    viewModel.setMidLevel(0)
-                                }
-                            },
-                            icon = Icons.Default.VolumeUp
-                        )
-
-                        AnimatedVisibility(visible = state.profileSettings.midLevel > 0) {
-                            Column {
-                                Spacer(modifier = Modifier.height(8.dp))
-                                ModernSettingSlider(
-                                    title = stringResource(R.string.dolby_mid_level),
-                                    value = state.profileSettings.midLevel,
-                                    onValueChange = { viewModel.setMidLevel(it.toInt()) },
-                                    valueRange = 0f..100f,
-                                    steps = 19,
-                                    valueLabel = { "$it%" }
-                                )
-                            }
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Column {
-                        ModernSettingSwitch(
                             title = stringResource(R.string.dolby_treble_enhancer),
                             subtitle = stringResource(R.string.dolby_treble_enhancer_summary),
                             checked = state.profileSettings.trebleLevel > 0,
@@ -265,14 +200,8 @@ private fun ModernAdvancedSettingsContent(
                             }
                         }
                     }
-                }
-            }
-            
-            item {
-                ModernSettingsCard(
-                    title = "Volume Leveler",
-                    icon = Icons.Default.VolumeDown
-                ) {
+                    
+                    Spacer(modifier = Modifier.height(8.dp))
                     ModernSettingSwitch(
                         title = stringResource(R.string.dolby_volume_leveler),
                         subtitle = stringResource(R.string.dolby_volume_leveler_summary),
@@ -403,9 +332,26 @@ private fun ModernAdvancedSettingsContent(
                 }
             }
         }
+
+        item {
+            AppProfileSettingsCard(
+                onManageClick = { navController.navigate("app_profiles") }
+            )
+        }
         
         item {
-            Spacer(modifier = Modifier.height(70.dp))
+            Spacer(modifier = Modifier.height(80.dp))
         }
     }
+}
+
+@Composable
+private fun BottomNavigationBar(
+    currentRoute: String,
+    onNavigate: (String) -> Unit
+) {
+    EnhancedBottomNavigationBar(
+        currentRoute = currentRoute,
+        onNavigate = onNavigate
+    )
 }

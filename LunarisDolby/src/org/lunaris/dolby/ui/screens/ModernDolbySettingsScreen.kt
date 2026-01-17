@@ -6,7 +6,6 @@
 package org.lunaris.dolby.ui.screens
 
 import androidx.compose.animation.*
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -15,9 +14,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -25,21 +22,17 @@ import androidx.navigation.NavController
 import org.lunaris.dolby.R
 import org.lunaris.dolby.domain.models.DolbyUiState
 import org.lunaris.dolby.ui.components.*
-import org.lunaris.dolby.ui.viewmodel.DolbyViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ModernDolbySettingsScreen(
-    viewModel: DolbyViewModel,
+    viewModel: org.lunaris.dolby.ui.viewmodel.DolbyViewModel,
     navController: NavController
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var showResetDialog by remember { mutableStateOf(false) }
     var showCreditsDialog by remember { mutableStateOf(false) }
     val currentRoute by navController.currentBackStackEntryFlow.collectAsState(null)
-    
-    val layoutDirection = LocalLayoutDirection.current
-    val cutoutInsets = WindowInsets.displayCutout.asPaddingValues()
 
     Scaffold(
         topBar = {
@@ -73,10 +66,24 @@ fun ModernDolbySettingsScreen(
                 )
             )
         },
-        containerColor = MaterialTheme.colorScheme.surfaceContainer,
-        contentColor = MaterialTheme.colorScheme.onSurface
+        bottomBar = {
+            if (uiState is DolbyUiState.Success) {
+                BottomNavigationBar(
+                    currentRoute = currentRoute?.destination?.route ?: Screen.Settings.route,
+                    onNavigate = { route ->
+                        if (currentRoute?.destination?.route != route) {
+                            navController.navigate(route) {
+                                popUpTo(Screen.Settings.route) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
+                    }
+                )
+            }
+        },
+        containerColor = MaterialTheme.colorScheme.surfaceContainer
     ) { paddingValues ->
-        Box(modifier = Modifier.fillMaxSize()) {
         when (val state = uiState) {
             is DolbyUiState.Loading -> {
                 Box(
@@ -102,7 +109,6 @@ fun ModernDolbySettingsScreen(
                 ModernDolbySettingsContent(
                     state = state,
                     viewModel = viewModel,
-                    navController = navController,
                     modifier = Modifier.padding(paddingValues)
                 )
             }
@@ -132,47 +138,6 @@ fun ModernDolbySettingsScreen(
                 }
             }
         }
-            
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-                    .height(130.dp)
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.95f)
-                            )
-                        )
-                    )
-            )
-            
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-                    .padding(
-                        start = cutoutInsets.calculateStartPadding(layoutDirection),
-                        end = cutoutInsets.calculateEndPadding(layoutDirection),
-                        bottom = paddingValues.calculateBottomPadding()
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                FloatingNavToolbar(
-                    currentRoute = currentRoute?.destination?.route ?: "settings",
-                    onNavigate = { route ->
-                        if (currentRoute?.destination?.route != route) {
-                            navController.navigate(route) {
-                                popUpTo("settings") { saveState = true }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        }
-                    }
-                )
-            }
-        }
     }
 
     if (showResetDialog) {
@@ -198,8 +163,7 @@ fun ModernDolbySettingsScreen(
 @Composable
 private fun ModernDolbySettingsContent(
     state: DolbyUiState.Success,
-    viewModel: DolbyViewModel,
-    navController: NavController,
+    viewModel: org.lunaris.dolby.ui.viewmodel.DolbyViewModel,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -248,21 +212,20 @@ private fun ModernDolbySettingsContent(
                 }
             }
         }
-
-        item {
-            AnimatedVisibility(
-                visible = state.settings.enabled,
-                enter = fadeIn() + expandVertically(),
-                exit = fadeOut() + shrinkVertically()
-            ) {
-                AppProfileSettingsCard(
-                    onManageClick = { navController.navigate("app_profiles") }
-                )
-            }
-        }
         
         item {
-            Spacer(modifier = Modifier.height(70.dp))
+            Spacer(modifier = Modifier.height(80.dp))
         }
     }
+}
+
+@Composable
+private fun BottomNavigationBar(
+    currentRoute: String,
+    onNavigate: (String) -> Unit
+) {
+    EnhancedBottomNavigationBar(
+        currentRoute = currentRoute,
+        onNavigate = onNavigate
+    )
 }

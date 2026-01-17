@@ -386,7 +386,7 @@ private fun AppProfileItem(
                             expanded = false
                         }
                     )
-                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                    Divider(color = MaterialTheme.colorScheme.outlineVariant)
                     profiles.forEachIndexed { index, profileName ->
                         val profileValue = profileValues[index].toInt()
                         DropdownMenuItem(
