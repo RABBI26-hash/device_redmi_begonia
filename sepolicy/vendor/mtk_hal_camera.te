@@ -131,3 +131,7 @@ allow mtk_hal_camera mnt_vendor_file:file r_file_perms;
 allow mtk_hal_camera mnt_vendor_file:dir r_dir_perms;
 allow mtk_hal_camera sysfs_emi_ctrl_concurrency_scenario:dir r_dir_perms;
 allow mtk_hal_camera mtk_hal_pq_hwservice:hwservice_manager find;
+
+allow mtk_hal_camera persist_data_file:file getattr;
+allow mtk_hal_camera vendor_data_file:dir { read write search add_name };
+allow mtk_hal_camera vendor_data_file:file { create rw_file_perms getattr };
