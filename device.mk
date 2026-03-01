@@ -409,6 +409,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.vibrator-service.mediatek
 
+$(call soong_config_set,mediatek_vibrator,supports_effects,true)
+
 # VNDK
 PRODUCT_COPY_FILES += \
     hardware/lineage/compat/vndk/v32/arm/libutils-v32.so:$(TARGET_COPY_OUT_VENDOR)/lib/libutils-v32.so \
