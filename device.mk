@@ -164,6 +164,10 @@ PRODUCT_PACKAGES += \
     libjsoncpp.vendor \
     libsqlite.vendor
 
+# DT2W
+PRODUCT_PACKAGES += \
+    DT2W-Service-Begonia
+
 # Health
 PRODUCT_PACKAGES += \
     android.hardware.health@2.1-impl \
