@@ -1,0 +1,6 @@
+allow atci_service_sys mt6605_device:chr_file { read write ioctl open getattr };
+allow atci_service_sys nfc_socket_file:dir { write add_name remove_name search };
+allow atci_service_sys nfc_socket_file:sock_file { create write unlink setattr };
+
+hwbinder_use(atci_service_sys)
+typeattribute atci_service_sys hal_mtk_atci_client;

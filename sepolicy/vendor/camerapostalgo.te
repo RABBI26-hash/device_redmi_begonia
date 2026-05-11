@@ -1,0 +1,4 @@
+# ipc call
+hal_client_domain(camerapostalgo, hal_graphics_allocator);
+allow camerapostalgo mtk_hal_mms:binder call;
+allow camerapostalgo mtk_hal_gpu:binder call;

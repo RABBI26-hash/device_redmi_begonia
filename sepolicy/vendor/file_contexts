@@ -17,8 +17,25 @@
 /vendor/bin/hw/mfp-daemon                                               u:object_r:hal_fingerprint_default_exec:s0
 /vendor/bin/hw/vendor\.xiaomi\.hardware\.displayfeature@1\.0-service    u:object_r:hal_displayfeature_default_exec:s0
 
+# Latency
+/dev/cpu_dma_latency                                                                                    u:object_r:latency_device:s0
+
 # Mi Thermald
 /vendor/bin/mi_thermald       u:object_r:mi_thermald_exec:s0
 
+# NFC Data Labels
+/dev/nq-nci              u:object_r:nfc_device:s0
+
+# ST NFC hidl service
+/(system\/vendor|vendor)/bin/hw/android\.hardware\.nfc@1\.1-service\.st                                    u:object_r:hal_nfc_default_exec:s0
+/(system\/vendor|vendor)/bin/hw/android\.hardware\.nfc@1\.2-service\.st                                    u:object_r:hal_nfc_default_exec:s0
+/(system\/vendor|vendor)/bin/hw/android\.hardware\.secure_element@1\.0-service\.st54spi         u:object_r:st54spi_hal_secure_element_exec:s0
+
 # Power
 /(vendor|system/vendor)/bin/hw/android\.hardware\.power-service\.begonia-libperfmgr                      u:object_r:hal_power_default_exec:s0
+
+# System files
+/(system\/vendor|vendor)/bin/hw/camerahalserver                                           u:object_r:mtk_hal_camera_exec:s0
+/(vendor|system/vendor)/bin/hw/vendor\.nxp\.hardware\.nfc@1\.0-service		              u:object_r:vendor_hal_nfc_default_exec:s0
+/(vendor|system/vendor)/bin/hw/vendor\.nxp\.hardware\.nfc@1\.1-service		              u:object_r:vendor_hal_nfc_default_exec:s0
+

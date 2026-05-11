@@ -9,6 +9,9 @@ type sysfsts_novatek, sysfs_type, fs_type;
 type sysfs_fpsinfo, sysfs_type, fs_type;
 type sysfs_battery_supply, sysfs_type, fs_type;
 
+# Latency
+type latency_device, dev_type;
+
 # Performance
 type sysfs_mtk_cpufreq, fs_type, sysfs_type;
 type sysfs_mtk_gpufreq, fs_type, sysfs_type;
@@ -17,3 +20,6 @@ type sysfs_mtk_gpufreq, fs_type, sysfs_type;
 type pps_socket, file_type;
 
 allow proc_perfmgr proc:filesystem associate;
+
+# Purpose : mtk EM Power debug_log setting
+type sysfs_bus, fs_type, sysfs_type;
