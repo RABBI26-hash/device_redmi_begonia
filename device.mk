@@ -89,6 +89,10 @@ $(call soong_config_set_bool,lineage_health,charging_control_supports_bypass,fal
 PRODUCT_PACKAGES += \
     vendor.lineage.health-service.default
 
+# Debloat
+PRODUCT_PACKAGES += \
+    Debloat
+
 # Dex
 PRODUCT_DEXPREOPT_SPEED_APPS += \
     SystemUI
