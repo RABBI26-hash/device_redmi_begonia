@@ -406,7 +406,7 @@
       "PowerHint": "INTERACTION",
       "Node": "CPUBigClusterMinFreq",
       "Duration": 0,
-      "Value": "1419000"
+      "Value": "1169000"
     },
     {
       "PowerHint": "INTERACTION",
@@ -454,7 +454,7 @@
       "PowerHint": "INTERACTION",
       "Node": "UclampMin",
       "Duration": 0,
-      "Value": "50"
+      "Value": "25"
     },
     {
       "PowerHint": "INTERACTION",
@@ -490,7 +490,7 @@
       "PowerHint": "LAUNCH",
       "Node": "CPULittleClusterMinFreq",
       "Duration": 3000,
-      "Value": "2000000"
+      "Value": "1500000"
     },
     {
       "PowerHint": "LAUNCH",
