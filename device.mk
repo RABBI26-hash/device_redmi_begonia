@@ -482,10 +482,6 @@ PRODUCT_PACKAGES += \
     libhidlbase \
     libunwindstack.vendor
 
-# MTK IMS
-PRODUCT_PACKAGES += \
-    libshim_vtservice
-
 # RCS
 PRODUCT_PACKAGES += \
     com.android.ims.rcsmanager \
