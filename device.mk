@@ -29,17 +29,17 @@ TARGET_EXCLUDES_AUDIOFX := true
 PRODUCT_PACKAGES += \
     android.hardware.audio@6.0.vendor \
     android.hardware.audio.service \
-    android.hardware.audio@6.0-impl \
-    android.hardware.audio.effect@6.0-impl \
+    android.hardware.audio@6.0-impl:32 \
+    android.hardware.audio.effect@6.0-impl:32 \
     android.hardware.audio.common@6.0-util \
-    android.hardware.soundtrigger@2.3-impl \
+    android.hardware.soundtrigger@2.3-impl:32 \
     android.hardware.bluetooth@1.0.vendor \
     android.hardware.bluetooth@1.1.vendor \
-    android.hardware.bluetooth.audio-impl \
-    audio.bluetooth.default \
-    audio.r_submix.default \
-    audio.usb.default \
-    audio_policy.stub \
+    android.hardware.bluetooth.audio-impl:32 \
+    audio.bluetooth.default:32 \
+    audio.r_submix.default:32 \
+    audio.usb.default:32 \
+    audio_policy.stub:32 \
     libaudiopreprocessing \
     libbundlewrapper \
     libdownmix \
