@@ -56,6 +56,3 @@ mediatek.wlan.ctia=0
 wifi.interface=wlan0
 wifi.direct.interface=p2p0
 wifi.tethering.interface=ap0
-
-# Zygote
-ro.zygote.preload.enable=0
