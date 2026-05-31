@@ -25,6 +25,7 @@ TARGET_OPTIMIZED_DEXOPT := true
 TARGET_SUPPORTS_QUICK_TAP := true
 TARGET_FORCE_ENABLE_BLUR := true
 TARGET_SUPORTS_OMX_SERVICE := true
+TARGET_SUPORTS_GOOGLE_TELEPHONY := false
 
 # MiuiCamera
 $(call inherit-product-if-exists, vendor/MiuiCameraLeica/config.mk)
