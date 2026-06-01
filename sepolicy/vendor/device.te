@@ -1,4 +1,1 @@
 typeattribute system_block_device super_block_device_type;
-
-# NFC
-type mt6605_device, dev_type;
