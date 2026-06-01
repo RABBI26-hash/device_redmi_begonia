@@ -26,3 +26,8 @@ vendor.mediatek.hardware.camera.advcam::IAdvCamControl u:object_r:hal_camera_hws
 vendor.mediatek.hardware.camera.callbackclient::IMtkCallbackClient u:object_r:hal_camera_hwservice:s0
 vendor.mediatek.hardware.camera.security::ISecureCamera u:object_r:hal_camera_hwservice:s0
 vendor.mediatek.hardware.camera.frhandler::IFRHandler u:object_r:hal_camera_hwservice:s0
+
+# NFC
+vendor.nxp.hardware.nfc::INqNfc                                               u:object_r:nxpnfc_hwservice:s0
+vendor.nxp.nxpese::INxpEse                                                    u:object_r:nxpnfc_hwservice:s0
+vendor.nxp.nxpnfc::INxpNfc                                                    u:object_r:nxpnfc_hwservice:s0
