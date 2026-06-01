@@ -112,7 +112,6 @@ ro.vendor.mtk_fd_support=1
 ro.vendor.mtk_ufs_support=1
 
 # Dex
-pm.dexopt.bg-dexopt=speed-profile
 pm.dexopt.boot-after-ota=verify
 pm.dexopt.first-boot=verify
 pm.dexopt.install=speed-profile
@@ -363,11 +362,10 @@ wifi.concurrent.interface=
 wifi.suplicant_scan_interval=180
 
 # ZRAM
-ro.zram.mark_idle_delay_mins=60
+ro.zram.mark_idle_delay_mins=30
 ro.zram.first_wb_delay_mins=1440
 ro.zram.periodic_wb_delay_hours=2
 ro.zram_backing_device_min_free_mb=1536
-ro.zram.mark_idle_delay_mins=30
 
 # Zygote
 ro.zygote.preload.enable=1
