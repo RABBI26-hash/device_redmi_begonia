@@ -164,6 +164,7 @@ debug.renderengine.backend=skiaglthreaded
 debug.hwui.skia_tracing_enabled=false
 debug.hwui.skia_use_perfetto_track_events=false
 renderthread.skia.reduceopstasksplitting=true
+debug.sf.latch_unsignaled=1
 debug.sf.auto_latch_unsignaled=1
 debug.sf.disable_client_composition_cache=0
 debug.sf.enable_transaction_tracing=false
@@ -194,7 +195,7 @@ ro.surface_flinger.wcg_composition_dataspace=143261696
 ro.surface_flinger.primary_display_orientation=ORIENTATION_0
 ro.surface_flinger.running_without_sync_framework=true
 ro.surface_flinger.supports_background_blur=1
-ro.surface_flinger.uclamp.min=0
+ro.surface_flinger.uclamp.min=5
 
 # HWUI
 debug.hwui.use_hint_manager=true
