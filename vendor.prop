@@ -199,7 +199,7 @@ ro.surface_flinger.uclamp.min=5
 
 # HWUI
 debug.hwui.use_hint_manager=true
-debug.hwui.target_cpu_time_percent=25
+debug.hwui.target_cpu_time_percent=15
 
 # IMS
 persist.dbg.ims_volte_enable=1
