@@ -22,7 +22,6 @@ $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 LUNARIS_BUILD_TYPE := UNOFFICIAL
 WITH_GMS := true
 WITH_GMS_COMMS_SUITE := false
-TARGET_OPTIMIZED_DEXOPT := true
 TARGET_SUPPORTS_QUICK_TAP := true
 TARGET_FORCE_ENABLE_BLUR := true
 TARGET_SUPORTS_OMX_SERVICE := true
