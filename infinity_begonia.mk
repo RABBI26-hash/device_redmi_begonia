@@ -15,11 +15,17 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_p.mk)
 # Inherit from begonia device
 $(call inherit-product, device/redmi/begonia/device.mk)
 
-# Inherit some common lineage stuff
-$(call inherit-product, vendor/lineage/config/common_full_phone.mk)
+# Inherit some common Infinity stuff
+$(call inherit-product, vendor/infinity/config/common_full_phone.mk)
+TARGET_SUPPORTS_QUICK_TAP := true
+TARGET_DOESNT_LIKE_FLIPENDO := true
+TARGET_SUPPORTS_BLUR := true
+TARGET_HAS_UDFPS := false
+TARGET_FACE_UNLOCK_SUPPORTED := true
 
-# Lunaris Specific Flags
-LUNARIS_BUILD_TYPE := UNOFFICIAL
+# Infinity Specific Flags
+INFINITY_BUILD_TYPE := UNOFFICIAL
+INFINITY_MAINTAINER := Rabbi~Raihan
 WITH_GMS := true
 WITH_GMS_COMMS_SUITE := false
 TARGET_SUPPORTS_QUICK_TAP := true
@@ -27,8 +33,12 @@ TARGET_FORCE_ENABLE_BLUR := true
 TARGET_SUPORTS_OMX_SERVICE := true
 TARGET_USE_GPHOTOS := false
 TARGET_SUPORTS_GOOGLE_TELEPHONY := false
+TARGET_BUILD_GOOGLE_TELEPHONY := false
+USE_MOTO_CALCULATOR := true
+PERF_ANIM_OVERRIDE := true
 
-# MiuiCamera
+# Inherit some extras stuff
+$(call inherit-product-if-exists, vendor/extras/extras.mk)
 $(call inherit-product-if-exists, vendor/MiuiCameraLeica/config.mk)
 
 # Fix uses broken libraries
@@ -46,7 +56,7 @@ TARGET_BOOT_ANIMATION_RES := 1080
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := begonia
-PRODUCT_NAME := lineage_begonia
+PRODUCT_NAME := infinity_begonia
 PRODUCT_BRAND := Redmi
 PRODUCT_MODEL := Redmi Note 8 Pro
 PRODUCT_MANUFACTURER := Xiaomi

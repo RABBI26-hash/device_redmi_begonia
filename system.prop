@@ -16,9 +16,6 @@ persist.vendor.quick.charge=1
 # Kernel
 ro.kernel.zio=38,108,105,16
 
-# maintainer
-ro.lunaris.maintainer=Rabbi~Raihan
-
 # Perf
 ro.mtk_perf_simple_start_win=1
 ro.mtk_perf_fast_start_win=1
@@ -56,3 +53,9 @@ mediatek.wlan.ctia=0
 wifi.interface=wlan0
 wifi.direct.interface=p2p0
 wifi.tethering.interface=ap0
+
+# InfinityX phoneinfo props
+ro.infinity.soc=Mediatek Helio G90T
+ro.infinity.battery=4500 mAh
+ro.infinity.display=1080x2340, 60Hz
+ro.infinity.camera=64MP+8MP+2MP+2MP
