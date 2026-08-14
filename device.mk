@@ -303,10 +303,6 @@ PRODUCT_PACKAGES += \
 # Properties
 -include $(LOCAL_PATH)/vendor_logtag.mk
 
-# Partitions
-PRODUCT_RETROFIT_DYNAMIC_PARTITIONS := true
-PRODUCT_USE_DYNAMIC_PARTITIONS := true
-
 # Protobuf
 PRODUCT_PACKAGES += \
     libprotobuf-cpp-full-3.9.1-vendorcompat \
