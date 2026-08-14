@@ -1,6 +1,6 @@
 # Copyright (C) 2009 The Android Open Source Project
-# Copyright (c) 2011, The Linux Foundation. All rights reserved.
-# Copyright (C) 2017-2018 The LineageOS Project
+# Copyright (C) 2019 The Mokee Open Source Project
+# Copyright (C) 2019 The LineageOS Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,33 +16,136 @@
 
 import common
 import re
+import os
+from common import BlockDifference, EmptyImage, GetUserImage
+
+# The joined list of user image partitions of source and target builds.
+# - Items should be added to the list if new dynamic partitions are added.
+# - Items should not be removed from the list even if dynamic partitions are
+#   deleted. When generating an incremental OTA package, this script needs to
+#   know that an image is present in source build but not in target build.
+
+USERIMAGE_PARTITIONS = [
+    "odm",
+    "product",
+    "system_ext",
+]
+
+def GetUserImages(input_tmp, input_zip):
+  return {partition: GetUserImage(partition, input_tmp, input_zip)
+          for partition in USERIMAGE_PARTITIONS
+          if os.path.exists(os.path.join(input_tmp,
+                                         "IMAGES",partition + ".img"))}
+
+def FullOTA_GetBlockDifferences(info):
+  images = GetUserImages(info.input_tmp, info.input_zip)
+  return [BlockDifference(partition, image)
+          for partition, image in images.items()]
+
+def IncrementalOTA_GetBlockDifferences(info):
+  source_images = GetUserImages(info.source_tmp, info.source_zip)
+  target_images = GetUserImages(info.target_tmp, info.target_zip)
+
+  # Use EmptyImage() as a placeholder for partitions that will be deleted.
+  for partition in source_images:
+    target_images.setdefault(partition, EmptyImage())
+
+  # Use source_images.get() because new partitions are not in source_images.
+  return [BlockDifference(partition, target_image, source_images.get(partition))
+          for partition, target_image in target_images.items()]
 
 def FullOTA_InstallEnd(info):
-  OTA_InstallEnd(info)
-  return
+  OTA_InstallEnd(info, False)
 
 def IncrementalOTA_InstallEnd(info):
-  OTA_InstallEnd(info)
-  return
+  OTA_InstallEnd(info, True)
 
-def AddImage(info, dir, basename, dest):
-  path = dir + "/" + basename
-  if path not in info.input_zip.namelist():
-    return
-
-  data = info.input_zip.read(path)
+def AddImageOnly(info, basename, incremental, firmware):
+  if incremental:
+    input_zip = info.source_zip
+  else:
+    input_zip = info.input_zip
+  if firmware:
+    data = input_zip.read("RADIO/" + basename)
+  else:
+    data = input_zip.read("IMAGES/" + basename)
   common.ZipWriteStr(info.output_zip, basename, data)
+
+def AddImage(info, basename, dest, incremental):
+  AddImageOnly(info, basename, incremental, False)
   info.script.AppendExtra('package_extract_file("%s", "%s");' % (basename, dest))
 
-def FullOTA_InstallBegin(info):
-  AddImage(info, "RADIO", "super_dummy.img", "/tmp/super_dummy.img");
-  info.script.AppendExtra('package_extract_file("install/bin/flash_super_dummy.sh", "/tmp/flash_super_dummy.sh");')
-  info.script.AppendExtra('set_metadata("/tmp/flash_super_dummy.sh", "uid", 0, "gid", 0, "mode", 0755);')
-  info.script.AppendExtra('run_program("/tmp/flash_super_dummy.sh");')
-  return
+def OTA_InstallEnd(info, incremental):
+  info.script.Print("Patching vbmeta & dtbo Images...")
+  AddImage(info, "vbmeta.img", "/dev/block/by-name/vbmeta", incremental)
+  AddImage(info, "dtbo.img", "/dev/block/by-name/dtbo", incremental)
+  Firmware_Images(info, incremental)
 
-def OTA_InstallEnd(info):
-  info.script.Print("Patching dtbo and vbmeta images...")
-  AddImage(info, "IMAGES", "dtbo.img", "/dev/block/platform/bootdevice/by-name/dtbo")
-  AddImage(info, "IMAGES", "vbmeta.img", "/dev/block/platform/bootdevice/by-name/vbmeta")
-  return
+def Firmware_Images(info, incremental):
+  bin_map = {
+      'logo': ['logo']
+      }
+
+  img_map = {
+      'audio_dsp': ['audio_dsp'],
+      'cam_vpu1': ['cam_vpu1'],
+      'cam_vpu2': ['cam_vpu2'],
+      'cam_vpu3': ['cam_vpu3'],
+      'gz': ['gz1', 'gz2'],
+      'lk': ['lk', 'lk2'],
+      'md1img': ['md1img'],
+      'scp': ['scp1', 'scp2'],
+      'spmfw': ['spmfw'],
+      'sspm': ['sspm_1', 'sspm_2'],
+      'tee': ['tee1', 'tee2']
+      }
+
+  pl = 'preloader_ufs'
+  pl_part = ['sda', 'sdb']
+
+  fw_cmd = 'ifelse(getprop("ro.boot.hwc") == "India",\n(\n'
+  fw_cmd += 'ui_print("Flashing begoniain (Indian) Firmware...");\n'
+
+  # Flash Indian Firmware
+  AddImageOnly(info, "{}_in.img".format(pl), incremental, True)
+  for part in pl_part:
+      fw_cmd += 'package_extract_file("{}_in.img", "/dev/block/{}");\n'.format(pl, part)
+
+  for img in img_map.keys():
+    AddImageOnly(info, '{}_in.img'.format(img), incremental, True)
+    for part in img_map[img]:
+      fw_cmd += 'package_extract_file("{}_in.img", "/dev/block/bootdevice/by-name/{}");\n'.format(img, part)
+
+  for _bin in bin_map.keys():
+    AddImageOnly(info, '{}_in.bin'.format(_bin), incremental, True)
+    for part in bin_map[_bin]:
+      fw_cmd += 'package_extract_file("{}_in.bin", "/dev/block/bootdevice/by-name/{}");\n'.format(_bin, part)
+  # END Flash Indian Firmware
+
+  fw_cmd += '),\n(\n'
+  fw_cmd += 'ui_print("Flashing begonia (Global) Firmware...");\n'
+
+  # Flash Global Firmware
+  AddImageOnly(info, "{}.img".format(pl), incremental, True)
+  for part in pl_part:
+      fw_cmd += 'package_extract_file("{}.img", "/dev/block/{}");\n'.format(pl, part)
+
+  for img in img_map.keys():
+    AddImageOnly(info, '{}.img'.format(img), incremental, True)
+    for part in img_map[img]:
+      fw_cmd += 'package_extract_file("{}.img", "/dev/block/bootdevice/by-name/{}");\n'.format(img, part)
+
+  for _bin in bin_map.keys():
+    AddImageOnly(info, '{}.bin'.format(_bin), incremental, True)
+    for part in bin_map[_bin]:
+      fw_cmd += 'package_extract_file("{}.bin", "/dev/block/bootdevice/by-name/{}");\n'.format(_bin, part)
+  # END Flash Global Firmware
+
+  fw_cmd += ')\n);\n'
+
+  # Flash prebuilt recovery
+  fw_cmd += 'ui_print("Flashing Prebuilt Recovery...");\n'
+  AddImageOnly(info, 'twrp.img', incremental, True)
+  fw_cmd += 'package_extract_file("twrp.img", "/dev/block/bootdevice/by-name/recovery");'
+
+  info.script.AppendExtra(fw_cmd)
