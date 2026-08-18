@@ -1,2 +1,8 @@
 # Last kernel
 allow system_server proc_last_kmsg:file r_file_perms;
+
+allow system_server system_data_root_file:file { read getattr map open };
+allow system_server media_userdir_file:file { read getattr map open };
+
+dontaudit crash_dump vendor_overlay_file:file { read getattr map open };
+
