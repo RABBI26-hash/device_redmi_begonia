@@ -18,18 +18,13 @@ $(call inherit-product, device/redmi/begonia/device.mk)
 # Inherit some common lineage stuff
 $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 
-# AviumUI Specific Flags
-AVIUM_IS_OFFICIAL := true
-AVIUM_VERSION_APPEND_TIME_OF_DAY := false
-AVIUM_SETTINGS_SOC_MODEL_NAME := Mediatek Helio G90T
-AVIUM_SETTINGS_DEVICE_CODENAME := begonia
-AVIUM_FORCE_SET_FAKE_PROP := true
-AVIUM_MAINTAINER := wuxinG90
+# Lunaris Specific Flags
+LUNARIS_BUILD_TYPE := UNOFFICIAL
+WITH_GMS := true
+TARGET_OPTIMIZED_DEXOPT := true
+TARGET_SUPORTS_OMX_SERVICE := true
 TARGET_FORCE_ENABLE_BLUR := true
 TARGET_USES_GSANS := true
-WITH_GMS := true
-TARGET_INCLUDE_GOOGLEIME := true
-TARGET_GOOGLEIME_OVERRIDE_IME := true
 TARGET_SUPPORTS_QUICK_TAP := true
 PRODUCT_NO_CAMERA := true
 
