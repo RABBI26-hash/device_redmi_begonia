@@ -95,6 +95,10 @@ PRODUCT_DEXPREOPT_SPEED_APPS += \
     SystemUI
 PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := verify
 
+# Debloat
+PRODUCT_PACKAGES += \
+    Debloat
+
 # Device-specific settings
 PRODUCT_PACKAGES += \
     XiaomiParts
