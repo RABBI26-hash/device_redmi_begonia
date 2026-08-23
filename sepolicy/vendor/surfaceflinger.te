@@ -1,0 +1,2 @@
+# Allow surfaceflinger to read render engine properties (debug.renderengine.*)
+get_prop(surfaceflinger, render_prop)

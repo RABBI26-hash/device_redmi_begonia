@@ -13,20 +13,18 @@ vendor_public_prop(vendor_system_prop)
 vendor_public_prop(vendor_camera_prop)
 vendor_public_prop(vendor_video_prop)
 vendor_public_prop(mtkcam_prop)
-system_public_prop(mtk_em_video_log_vdec_prop)
 
 # gpud property
 system_public_prop(debug_mtk_gpud_prop)
 
 # thermal property
 vendor_public_prop(thermal_engine_prop)
+vendor_internal_prop(vendor_thermal_engine_prop)
 
 # Powerhal property
-vendor_public_prop(mtk_powerhal_prop)
 
 # Viodeo Props
 vendor_public_prop(render_prop)
-vendor_public_prop(factor_prop)
 
 # Wi-Fi
 vendor_public_prop(wlan_fw_prop)

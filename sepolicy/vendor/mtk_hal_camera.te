@@ -121,7 +121,7 @@ allow mtk_hal_camera shell:fifo_file write;
 
 # Purpose : Update camera Vcodec device file
 allow mtk_hal_camera Vcodec_device:chr_file { read write open ioctl };
-get_prop(mtk_hal_camera, mtk_em_video_log_vdec_prop)
+
 
 allow mtk_hal_camera debugfs_tracing:file { write open };
 allow mtk_hal_camera proc_isp_p2:file {create_file_perms};

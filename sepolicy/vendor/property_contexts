@@ -64,3 +64,23 @@ persist.radio.meid             u:object_r:vendor_deviceid_prop:s0 exact string
 ro.ril.miui.imei               u:object_r:vendor_deviceid_prop:s0 exact string
 ro.ril.oem.imei                u:object_r:vendor_deviceid_prop:s0 exact string
 ro.ril.oem.meid                u:object_r:vendor_deviceid_prop:s0 exact string
+
+# ATM
+persist.vendor.atm.            u:object_r:persist_atm_prop:s0
+
+# MTK Camera
+vendor.mtkcam.                 u:object_r:mtkcam_prop:s0
+ro.vendor.mtk_hdr_video_support u:object_r:vendor_mtk_camera_prop:s0
+
+# GPU Debug
+debug.mtk.gpud.                u:object_r:debug_mtk_gpud_prop:s0
+
+# Powerhal
+
+# Render
+debug.renderengine.            u:object_r:render_prop:s0
+
+# Wi-Fi firmware
+ro.vendor.wlan.                u:object_r:wlan_fw_prop:s0
+ro.mtk_crossmount_support       u:object_r:vendor_mtk_crossmount_prop:s0
+ro.mtk_deinterlace_support      u:object_r:vendor_mtk_deinterlace_prop:s0
